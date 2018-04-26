@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/playButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLAY"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:id="@+id/vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="vs."
+        android:layout_centerInParent="true"
+        android:textSize="25sp"
+        />
+    <ImageView
+        android:id="@+id/playerOne"
+        android:layout_width="150dp"
+        android:layout_height="230dp"
+        android:layout_toStartOf="@id/vs"
+        android:layout_centerVertical="true"
+        android:src="@drawable/blue_back"
+        />
+    <ImageView
+        android:id="@+id/playerTwo"
+        android:layout_width="150dp"
+        android:layout_height="230dp"
+        android:layout_toEndOf="@id/vs"
+        android:layout_centerVertical="true"
+        android:src="@drawable/blue_back"/>
+    <TextView
+        android:id="@+id/deckSize1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playerOne"
+        android:layout_marginStart="60dp"
+        android:text="Deck Size: "
+        android:textSize="15sp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playerOne"
+        android:layout_toEndOf="@id/deckSize1"
+        android:text="26"
+        android:textSize="15sp"/>
+    <TextView
+        android:id="@+id/deckSize2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playerTwo"
+        android:layout_toStartOf="@id/number"
+        android:textSize="15sp"
+        android:text="Deck Size: "
+        />
+    <TextView
+        android:id="@+id/number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/playerTwo"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="55dp"
+        android:textSize="15sp"
+        android:text="26" />
+
+</RelativeLayout>
