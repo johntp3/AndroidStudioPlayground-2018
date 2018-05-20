@@ -60,105 +60,77 @@ public class MainActivity extends AppCompatActivity {
             Card newCard = new Card(regularCards[i], drawableRes[i]);
             tempDeck.add(newCard);
         }
-        final ArrayList<Card> deck = new ArrayList<Card>();
+        final ArrayList<Card> deck = new ArrayList<Card>(tempDeck);
 
+        final Queue<Card> playerOne = new LinkedList<Card>();
+        final Queue<Card> playerTwo = new LinkedList<Card>();
+        // next Queue will be used to temporarily hold values while war is occurring
+        final Queue<Card> temp1 = new LinkedList<Card>();
+        final Queue<Card> temp2 = new LinkedList<Card>();
+        final int[] biggerTemp = new int[1];
+        final boolean[] greaterThanExecuted = new boolean[1];
+        final boolean[] lessThanExecuted = new boolean[1];
 
         Button playButton = (Button) findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
-                Queue<Card> playerOne = new LinkedList<Card>();
-                Queue<Card> playerTwo = new LinkedList<Card>();
-                // next Queue will be used to temporarily hold values while war is occurring
-                Queue<Card> temp1 = new LinkedList<Card>();
-                Queue<Card> temp2 = new LinkedList<Card>();
-                int biggerTemp;
-                boolean greaterThanExecuted;
-                boolean lessThanExecuted;
-
                 Collections.shuffle(deck);
-                for (int i = 0; i < 26; i++)
-                {
+                for (int i = 0; i < 26; i++) {
                     playerOne.add(deck.get(i));
-                    playerTwo.add(deck.get(i+26));
+                    playerTwo.add(deck.get(i + 26));
                 }
 
-                while(!playerOne.isEmpty() && !playerTwo.isEmpty())
-                {
-                    greaterThanExecuted = false;
-                    lessThanExecuted = false;
-                    if (playerOne.peek().getCardNumber() > playerTwo.peek().getCardNumber())
-                    {
-                        greaterThanExecuted = true;
-                        if(temp1.size() >= temp2.size())
-                        {
-                            biggerTemp = temp1.size();
+                while (!playerOne.isEmpty() && !playerTwo.isEmpty()) {
+                    greaterThanExecuted[0] = false;
+                    lessThanExecuted[0] = false;
+                    if (playerOne.peek().getCardNumber() > playerTwo.peek().getCardNumber()) {
+                        greaterThanExecuted[0] = true;
+                        if (temp1.size() >= temp2.size()) {
+                            biggerTemp[0] = temp1.size();
+                        } else {
+                            biggerTemp[0] = temp2.size();
                         }
-                        else
-                        {
-                            biggerTemp = temp2.size();
-                        }
-                        if (biggerTemp == 0)
-                        {
+                        if (biggerTemp[0] == 0) {
                             playerOne.add(playerOne.remove());
                             playerOne.add(playerTwo.remove());
-                        }
-                        else
-                        {
-                            for (int i = 0; i < biggerTemp; i++)
-                            {
-                                if (!temp1.isEmpty())
-                                {
+                        } else {
+                            for (int i = 0; i < biggerTemp[0]; i++) {
+                                if (!temp1.isEmpty()) {
                                     playerOne.add(temp1.remove());
                                 }
-                                if (!temp2.isEmpty())
-                                {
+                                if (!temp2.isEmpty()) {
                                     playerOne.add(temp2.remove());
                                 }
                             }
                         }
                     }
-                    if (!greaterThanExecuted && (playerOne.peek().getCardNumber() < playerTwo.peek().getCardNumber()))
-                    {
-                        lessThanExecuted = true;
-                        if(temp1.size() >= temp2.size())
-                        {
-                            biggerTemp = temp1.size();
+                    if (!greaterThanExecuted[0] && (playerOne.peek().getCardNumber() < playerTwo.peek().getCardNumber())) {
+                        lessThanExecuted[0] = true;
+                        if (temp1.size() >= temp2.size()) {
+                            biggerTemp[0] = temp1.size();
+                        } else {
+                            biggerTemp[0] = temp2.size();
                         }
-                        else
-                        {
-                            biggerTemp = temp2.size();
-                        }
-                        if (biggerTemp == 0)
-                        {
+                        if (biggerTemp[0] == 0) {
                             playerTwo.add(playerTwo.remove());
                             playerTwo.add(playerOne.remove());
-                        }
-                        else
-                        {
-                            for (int i = 0; i < biggerTemp; i++)
-                            {
-                                if (!temp1.isEmpty())
-                                {
+                        } else {
+                            for (int i = 0; i < biggerTemp[0]; i++) {
+                                if (!temp1.isEmpty()) {
                                     playerTwo.add(temp1.remove());
                                 }
-                                if (!temp2.isEmpty())
-                                {
+                                if (!temp2.isEmpty()) {
                                     playerTwo.add(temp2.remove());
                                 }
                             }
                         }
                     }
-                    if (!greaterThanExecuted && !lessThanExecuted && (playerOne.peek().getCardNumber() == playerTwo.peek().getCardNumber()))
-                    {
-                        for (int i = 0; i < 4; i++)
-                        {
-                            if (playerOne.size() > 1)
-                            {
+                    if (!greaterThanExecuted[0] && !lessThanExecuted[0] && (playerOne.peek().getCardNumber() == playerTwo.peek().getCardNumber())) {
+                        for (int i = 0; i < 4; i++) {
+                            if (playerOne.size() > 1) {
                                 temp1.add(playerOne.remove());
                             }
-                            if (playerTwo.size() > 1)
-                            {
+                            if (playerTwo.size() > 1) {
                                 temp2.add(playerTwo.remove());
                             }
                         }
@@ -168,3 +140,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
+
