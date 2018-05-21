@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">War</string>
+    <string name="name_of_players">Name of Players</string>
+    <string name="player_one">Player One</string>
+    <string name="player_two">Player Two</string>
+    <string name="ready">Ready</string>
+    <string name="change_player_names">change player names</string>
+    <string name="play">PLAY</string>
+    <string name="vs">vs.</string>
+    <string name="deck_size">Deck Size:</string>
+    <string name="p1_card_count">26</string>
+    <string name="p2_card_count">26</string>
 </resources>

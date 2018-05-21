@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/playerNames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="@string/name_of_players" />
+
+    <EditText
+        android:id="@+id/etplayerOne"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName|textCapWords"
+        android:hint="@string/player_one" />
+
+    <EditText
+        android:id="@+id/etplayerTwo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName|textCapWords"
+        android:hint="@string/player_two" />
+
+    <Button
+        android:id="@+id/btnDialogReady"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/ready"
+        android:background="#FF0000"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>

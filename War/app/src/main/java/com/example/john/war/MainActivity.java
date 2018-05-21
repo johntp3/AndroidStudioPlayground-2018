@@ -1,13 +1,19 @@
 package com.example.john.war;
 //package com.example.john.war.Card;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,23 +42,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        /* creates random integer 0-51
-        Random rand = new Random();
-        int num = rand.nextInt(52);
-        //connecting back end code to front end
-        leftCard = findViewById(R.id.playerOne);
-
-        int imageResource = drawableRes[num];
-        Drawable res = ResourcesCompat.getDrawable(getResources(), imageResource, null);
-        leftCard.setImageDrawable(res);
-
-        num = rand.nextInt(52);
-        rightCard =findViewById(R.id.playerTwo);
-        imageResource = drawableRes[num];
-        res = ResourcesCompat.getDrawable(getResources(), imageResource, null);
-        rightCard.setImageDrawable(res);
-        */
-        // make a Card(int value, int img) class, generate all 52 cards and add them to the player queues.
 
         ArrayList<Card> tempDeck = new ArrayList<Card>();
 
@@ -136,6 +125,37 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+            }
+        });
+
+        Button changePlayerNames = (Button) findViewById(R.id.changePlayerNames);
+        changePlayerNames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                View mView = getLayoutInflater().inflate(R.layout.dialog_player_names, null);
+                final EditText mPlayerOne = (EditText) mView.findViewById(R.id.etplayerOne);
+                final EditText mPlayerTwo = (EditText) mView.findViewById(R.id.etplayerTwo);
+                Button mReady = (Button) mView.findViewById(R.id.btnDialogReady);
+
+                mReady.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!mPlayerOne.getText().toString().isEmpty() && !mPlayerTwo.getText().toString().isEmpty()) {
+                            Toast.makeText(MainActivity.this,
+                                    "Names successfully changed! Go back to home screen to play the game!",
+                                    Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    "Please fill any empty fields",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                mBuilder.setView(mView);
+                AlertDialog dialog = mBuilder.create();
+                dialog.show();
             }
         });
     }
