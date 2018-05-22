@@ -3,6 +3,7 @@ package com.example.john.war;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.res.ResourcesCompat;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.d10, R.drawable.dj, R.drawable.dq, R.drawable.dk, R.drawable.da};
     ImageView leftCard;
     ImageView rightCard;
+    Button changePlayerNames, mReady;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             tempDeck.add(newCard);
         }
         final ArrayList<Card> deck = new ArrayList<Card>(tempDeck);
-
         final Queue<Card> playerOne = new LinkedList<Card>();
         final Queue<Card> playerTwo = new LinkedList<Card>();
         // next Queue will be used to temporarily hold values while war is occurring
@@ -64,6 +65,16 @@ public class MainActivity extends AppCompatActivity {
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Collections.shuffle(deck);
+
+                for (int i = 0; i < 52; i++) {
+                    if(!playerOne.isEmpty()) {
+                        playerOne.remove(deck.get(i));
+                    }
+                    if(!playerTwo.isEmpty()) {
+                        playerTwo.remove(deck.get(i));
+                    }
+                }
+
                 for (int i = 0; i < 26; i++) {
                     playerOne.add(deck.get(i));
                     playerTwo.add(deck.get(i + 26));
@@ -125,39 +136,78 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 }
+
+                SharedPreferences SP1 = getApplicationContext().getSharedPreferences("PLAYER1", 0);
+                SharedPreferences SP2 = getApplicationContext().getSharedPreferences("PLAYER2", 0);
+
+                if (playerOne.size() == 0) {
+
+                    if(SP1.getString("PLAYER1", null) == null) {
+                        Toast.makeText(MainActivity.this, "Player One won!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Congratulations " +
+                                SP1.getString("PLAYER1", null) + "! You won!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    if(SP2.getString("PLAYER2", null) == null) {
+                        Toast.makeText(MainActivity.this, "Player Two won!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Congratulations " +
+                                        SP2.getString("PLAYER2", null) + "! You won!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
-        Button changePlayerNames = (Button) findViewById(R.id.changePlayerNames);
+        changePlayerNames = (Button) findViewById(R.id.changePlayerNames);
+
         changePlayerNames.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
-                View mView = getLayoutInflater().inflate(R.layout.dialog_player_names, null);
-                final EditText mPlayerOne = (EditText) mView.findViewById(R.id.etplayerOne);
-                final EditText mPlayerTwo = (EditText) mView.findViewById(R.id.etplayerTwo);
-                Button mReady = (Button) mView.findViewById(R.id.btnDialogReady);
+            public void onClick(View v) {
+                final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
+                final View mView = getLayoutInflater().inflate(R.layout.dialog_player_names, null);
+                final EditText etPlayerOne = (EditText) mView.findViewById(R.id.etplayerOne);
+                final EditText etPlayerTwo = (EditText) mView.findViewById(R.id.etplayerTwo);
+                Button btnDialogReady = (Button) mView.findViewById(R.id.btnDialogReady);
 
-                mReady.setOnClickListener(new View.OnClickListener() {
+                etPlayerOne.setEnabled(true);
+                etPlayerTwo.setEnabled(true);
+                btnDialogReady.setEnabled(true);
+
+                mBuilder.setView(mView);
+                final AlertDialog dialog = mBuilder.create();
+
+                btnDialogReady.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!mPlayerOne.getText().toString().isEmpty() && !mPlayerTwo.getText().toString().isEmpty()) {
-                            Toast.makeText(MainActivity.this,
-                                    "Names successfully changed! Go back to home screen to play the game!",
-                                    Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(MainActivity.this,
-                                    "Please fill any empty fields",
-                                    Toast.LENGTH_LONG).show();
-                        }
+                        SharedPrefesSAVE1(etPlayerOne.getText().toString());
+                        SharedPrefesSAVE2(etPlayerTwo.getText().toString());
+                        dialog.dismiss();
                     }
                 });
 
-                mBuilder.setView(mView);
-                AlertDialog dialog = mBuilder.create();
+
                 dialog.show();
             }
         });
+    }
+
+    public void SharedPrefesSAVE1 (String player1) {
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("PLAYER1", 0);
+        SharedPreferences.Editor prefEDIT1 = prefs.edit();
+        prefEDIT1.putString("PLAYER1", player1);
+        prefEDIT1.commit();
+    }
+
+    public void SharedPrefesSAVE2 (String player2) {
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("PLAYER2", 0);
+        SharedPreferences.Editor prefEDIT2 = prefs.edit();
+        prefEDIT2.putString("PLAYER2", player2);
+        prefEDIT2.commit();
     }
 }
 
