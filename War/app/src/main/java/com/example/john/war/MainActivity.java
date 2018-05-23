@@ -1,12 +1,6 @@
 package com.example.john.war;
 //package com.example.john.war.Card;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,8 +14,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Random;
-import java.util.Collection;
 
 public class MainActivity extends AppCompatActivity {
     //card structure: H 2-A, C 2-A, S 2-A, D 2-A
@@ -36,32 +28,30 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.sj, R.drawable.sq, R.drawable.sk, R.drawable.sa, R.drawable.d2, R.drawable.d3,
             R.drawable.d4, R.drawable.d5, R.drawable.d6, R.drawable.d7, R.drawable.d8, R.drawable.d9,
             R.drawable.d10, R.drawable.dj, R.drawable.dq, R.drawable.dk, R.drawable.da};
-    ImageView leftCard;
-    ImageView rightCard;
-    Button changePlayerNames, mReady;
+    Button changePlayerNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Card> tempDeck = new ArrayList<Card>();
+        ArrayList<Card> tempDeck = new ArrayList<>();
 
         for (int i = 0; i < 52; i++) {
             Card newCard = new Card(regularCards[i], drawableRes[i]);
             tempDeck.add(newCard);
         }
-        final ArrayList<Card> deck = new ArrayList<Card>(tempDeck);
-        final Queue<Card> playerOne = new LinkedList<Card>();
-        final Queue<Card> playerTwo = new LinkedList<Card>();
+        final ArrayList<Card> deck = new ArrayList<>(tempDeck);
+        final Queue<Card> playerOne = new LinkedList<>();
+        final Queue<Card> playerTwo = new LinkedList<>();
         // next Queue will be used to temporarily hold values while war is occurring
-        final Queue<Card> temp1 = new LinkedList<Card>();
-        final Queue<Card> temp2 = new LinkedList<Card>();
+        final Queue<Card> temp1 = new LinkedList<>();
+        final Queue<Card> temp2 = new LinkedList<>();
         final int[] biggerTemp = new int[1];
         final boolean[] greaterThanExecuted = new boolean[1];
         final boolean[] lessThanExecuted = new boolean[1];
 
-        Button playButton = (Button) findViewById(R.id.playButton);
+        Button playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Collections.shuffle(deck);
@@ -163,16 +153,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        changePlayerNames = (Button) findViewById(R.id.changePlayerNames);
+        changePlayerNames = findViewById(R.id.changePlayerNames);
 
         changePlayerNames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final AlertDialog.Builder mBuilder = new AlertDialog.Builder(MainActivity.this);
                 final View mView = getLayoutInflater().inflate(R.layout.dialog_player_names, null);
-                final EditText etPlayerOne = (EditText) mView.findViewById(R.id.etplayerOne);
-                final EditText etPlayerTwo = (EditText) mView.findViewById(R.id.etplayerTwo);
-                Button btnDialogReady = (Button) mView.findViewById(R.id.btnDialogReady);
+                final EditText etPlayerOne = mView.findViewById(R.id.etplayerOne);
+                final EditText etPlayerTwo = mView.findViewById(R.id.etplayerTwo);
+                Button btnDialogReady = mView.findViewById(R.id.btnDialogReady);
 
                 etPlayerOne.setEnabled(true);
                 etPlayerTwo.setEnabled(true);
@@ -189,8 +179,6 @@ public class MainActivity extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-
-
                 dialog.show();
             }
         });
@@ -200,14 +188,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PLAYER1", 0);
         SharedPreferences.Editor prefEDIT1 = prefs.edit();
         prefEDIT1.putString("PLAYER1", player1);
-        prefEDIT1.commit();
+        prefEDIT1.apply();
     }
 
     public void SharedPrefesSAVE2 (String player2) {
         SharedPreferences prefs = getApplicationContext().getSharedPreferences("PLAYER2", 0);
         SharedPreferences.Editor prefEDIT2 = prefs.edit();
         prefEDIT2.putString("PLAYER2", player2);
-        prefEDIT2.commit();
+        prefEDIT2.apply();
     }
 }
 
