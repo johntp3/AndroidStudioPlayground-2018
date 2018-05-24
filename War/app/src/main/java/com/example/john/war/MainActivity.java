@@ -1,5 +1,6 @@
 package com.example.john.war;
 //package com.example.john.war.Card;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     TextView countPlayerOne, countPlayerTwo;
     Thread thread1, thread2;
     Handler updater1, updater2;
+    Intent intent;
     ArrayList<Card> deck;
     Queue<Card> playerOne, playerTwo, temp1, temp2;
     int biggerTemp;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         //the following TextViews will be edited during the code to match the amount of cards in each player's hand
         countPlayerOne = findViewById(R.id.countPlayerOne);
         countPlayerTwo = findViewById(R.id.countPlayerTwo);
+        intent = new Intent(this, SimpleIntentService.class);
 
         Button playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
                             });
                         }
                     };*/
+                    startService(intent);
                 }
 
                 SharedPreferences SP1 = getApplicationContext().getSharedPreferences("PLAYER1", 0);
