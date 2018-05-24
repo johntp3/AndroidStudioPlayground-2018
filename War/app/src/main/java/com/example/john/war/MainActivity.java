@@ -1,6 +1,7 @@
 package com.example.john.war;
 //package com.example.john.war.Card;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.d4, R.drawable.d5, R.drawable.d6, R.drawable.d7, R.drawable.d8, R.drawable.d9,
             R.drawable.d10, R.drawable.dj, R.drawable.dq, R.drawable.dk, R.drawable.da};
     Button changePlayerNames;
+    TextView countPlayerOne, countPlayerTwo;
+    Thread thread1, thread2;
+    Handler updater1, updater2;
     ArrayList<Card> deck;
     Queue<Card> playerOne, playerTwo, temp1, temp2;
     int biggerTemp;
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
         // next Queue will be used to temporarily hold values while war is occurring
         temp1 = new LinkedList<>();
         temp2 = new LinkedList<>();
+        //the following TextViews will be edited during the code to match the amount of cards in each player's hand
+        countPlayerOne = findViewById(R.id.countPlayerOne);
+        countPlayerTwo = findViewById(R.id.countPlayerTwo);
 
         Button playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -125,13 +133,45 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    /*thread1 = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            updater1.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    countPlayerOne.setText("" + playerOne.size());
+                                }
+                            });
+                        }
+                    };
+
+                    thread2 = new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            updater2.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    countPlayerTwo.setText("" + playerTwo.size());
+                                }
+                            });
+                        }
+                    };*/
                 }
 
                 SharedPreferences SP1 = getApplicationContext().getSharedPreferences("PLAYER1", 0);
                 SharedPreferences SP2 = getApplicationContext().getSharedPreferences("PLAYER2", 0);
 
-                if (playerOne.size() == 0) {
-
+                if (!playerOne.isEmpty()) {
                     if(SP1.getString("PLAYER1", null) == "" || SP1.getString("PLAYER1", null) == null) {
                         Toast.makeText(MainActivity.this, "Player One won!",
                                 Toast.LENGTH_SHORT).show();

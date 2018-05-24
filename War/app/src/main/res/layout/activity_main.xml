@@ -63,6 +63,7 @@
                     android:text="@string/deck_size"
                     android:textSize="15sp"/>
                 <TextView
+                    android:id="@+id/countPlayerOne"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/p1_card_count"
@@ -83,6 +84,7 @@
                     android:text="@string/deck_size"
                     android:textSize="15sp"/>
                 <TextView
+                    android:id="@+id/countPlayerTwo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/p2_card_count"
