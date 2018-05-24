@@ -29,27 +29,27 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.d4, R.drawable.d5, R.drawable.d6, R.drawable.d7, R.drawable.d8, R.drawable.d9,
             R.drawable.d10, R.drawable.dj, R.drawable.dq, R.drawable.dk, R.drawable.da};
     Button changePlayerNames;
+    ArrayList<Card> deck;
+    Queue<Card> playerOne, playerTwo, temp1, temp2;
+    int biggerTemp;
+    boolean greaterThanExecuted, lessThanExecuted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Card> tempDeck = new ArrayList<>();
+        deck = new ArrayList<>();
 
         for (int i = 0; i < 52; i++) {
             Card newCard = new Card(regularCards[i], drawableRes[i]);
-            tempDeck.add(newCard);
+            deck.add(newCard);
         }
-        final ArrayList<Card> deck = new ArrayList<>(tempDeck);
-        final Queue<Card> playerOne = new LinkedList<>();
-        final Queue<Card> playerTwo = new LinkedList<>();
+        playerOne = new LinkedList<>();
+        playerTwo = new LinkedList<>();
         // next Queue will be used to temporarily hold values while war is occurring
-        final Queue<Card> temp1 = new LinkedList<>();
-        final Queue<Card> temp2 = new LinkedList<>();
-        final int[] biggerTemp = new int[1];
-        final boolean[] greaterThanExecuted = new boolean[1];
-        final boolean[] lessThanExecuted = new boolean[1];
+        temp1 = new LinkedList<>();
+        temp2 = new LinkedList<>();
 
         Button playButton = findViewById(R.id.playButton);
         playButton.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +71,20 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 while (!playerOne.isEmpty() && !playerTwo.isEmpty()) {
-                    greaterThanExecuted[0] = false;
-                    lessThanExecuted[0] = false;
+                    greaterThanExecuted = false;
+                    lessThanExecuted = false;
                     if (playerOne.peek().getCardNumber() > playerTwo.peek().getCardNumber()) {
-                        greaterThanExecuted[0] = true;
+                        greaterThanExecuted = true;
                         if (temp1.size() >= temp2.size()) {
-                            biggerTemp[0] = temp1.size();
+                            biggerTemp = temp1.size();
                         } else {
-                            biggerTemp[0] = temp2.size();
+                            biggerTemp = temp2.size();
                         }
-                        if (biggerTemp[0] == 0) {
+                        if (biggerTemp == 0) {
                             playerOne.add(playerOne.remove());
                             playerOne.add(playerTwo.remove());
                         } else {
-                            for (int i = 0; i < biggerTemp[0]; i++) {
+                            for (int i = 0; i < biggerTemp; i++) {
                                 if (!temp1.isEmpty()) {
                                     playerOne.add(temp1.remove());
                                 }
@@ -94,18 +94,18 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    if (!greaterThanExecuted[0] && (playerOne.peek().getCardNumber() < playerTwo.peek().getCardNumber())) {
-                        lessThanExecuted[0] = true;
+                    if (!greaterThanExecuted && (playerOne.peek().getCardNumber() < playerTwo.peek().getCardNumber())) {
+                        lessThanExecuted = true;
                         if (temp1.size() >= temp2.size()) {
-                            biggerTemp[0] = temp1.size();
+                            biggerTemp = temp1.size();
                         } else {
-                            biggerTemp[0] = temp2.size();
+                            biggerTemp = temp2.size();
                         }
-                        if (biggerTemp[0] == 0) {
+                        if (biggerTemp == 0) {
                             playerTwo.add(playerTwo.remove());
                             playerTwo.add(playerOne.remove());
                         } else {
-                            for (int i = 0; i < biggerTemp[0]; i++) {
+                            for (int i = 0; i < biggerTemp; i++) {
                                 if (!temp1.isEmpty()) {
                                     playerTwo.add(temp1.remove());
                                 }
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    if (!greaterThanExecuted[0] && !lessThanExecuted[0] && (playerOne.peek().getCardNumber() == playerTwo.peek().getCardNumber())) {
+                    if (!greaterThanExecuted && !lessThanExecuted && (playerOne.peek().getCardNumber() == playerTwo.peek().getCardNumber())) {
                         for (int i = 0; i < 4; i++) {
                             if (playerOne.size() > 1) {
                                 temp1.add(playerOne.remove());
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (playerOne.size() == 0) {
 
-                    if(SP1.getString("PLAYER1", null) == null) {
+                    if(SP1.getString("PLAYER1", null) == "" || SP1.getString("PLAYER1", null) == null) {
                         Toast.makeText(MainActivity.this, "Player One won!",
                                 Toast.LENGTH_SHORT).show();
                     } else {
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    if(SP2.getString("PLAYER2", null) == null) {
+                    if(SP2.getString("PLAYER2", null) == "" || SP2.getString("PLAYER2", null) == null) {
                         Toast.makeText(MainActivity.this, "Player Two won!",
                                 Toast.LENGTH_SHORT).show();
                     } else {
