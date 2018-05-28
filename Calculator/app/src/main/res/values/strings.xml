@@ -8,7 +8,7 @@
     <string name="Four">4</string>
     <string name="Five">5</string>
     <string name="Six">6</string>
-    <string name="multiplication">X</string>
+    <string name="multiplication">*</string>
     <string name="Seven">7</string>
     <string name="Eight">8</string>
     <string name="Nine">9</string>
@@ -18,4 +18,5 @@
     <string name="Negative">(-)</string>
     <string name="subtraction">-</string>
     <string name="Enter">Enter</string>
+    <string name="result" />
 </resources>
