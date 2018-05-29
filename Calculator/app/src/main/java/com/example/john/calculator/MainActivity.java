@@ -5,8 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     Button Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Dot, Negative, division, multiplication, subtraction, addition, Enter;
@@ -19,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     char ACTION;
     double val1 = Double.NaN;
     double val2;
+    boolean operatorJustPressed = false, operatorPressed = false, specialCharJustPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "0");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "1");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "2");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "3");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -65,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "4");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -72,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "5");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -79,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "6");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -86,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "7");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -93,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "8");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -100,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "9");
+                operatorJustPressed = false;
+                specialCharJustPressed = false;
             }
         });
 
@@ -107,6 +127,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + ".");
+                operatorJustPressed = false;
+                specialCharJustPressed = true;
             }
         });
 
@@ -114,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 computationLine.setText(computationLine.getText().toString() + "-");
+                operatorJustPressed = false;
+                specialCharJustPressed = true;
             }
         });
 
@@ -124,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
                 ACTION = DIVISION;
                 result.setText(String.valueOf(val1) + " / ");
                 computationLine.setText(null);
+                operatorJustPressed = true;
+                operatorPressed = true;
+                specialCharJustPressed = false;
             }
         });
 
@@ -134,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
                 ACTION = MULTIPLICATION;
                 result.setText(String.valueOf(val1) + " * ");
                 computationLine.setText(null);
+                operatorJustPressed = true;
+                operatorPressed = true;
+                specialCharJustPressed = false;
             }
         });
 
@@ -144,6 +174,9 @@ public class MainActivity extends AppCompatActivity {
                 ACTION = SUBTRACTION;
                 result.setText(String.valueOf(val1) + " - ");
                 computationLine.setText(null);
+                operatorJustPressed = true;
+                operatorPressed = true;
+                specialCharJustPressed = false;
 
             }
         });
@@ -155,17 +188,34 @@ public class MainActivity extends AppCompatActivity {
                 ACTION = ADDITION;
                 result.setText(String.valueOf(val1) + " + ");
                 computationLine.setText(null);
+                operatorJustPressed = true;
+                operatorPressed = true;
+                specialCharJustPressed = false;
             }
         });
 
         Enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                ACTION = ENTER;
-                result.setText(result.getText().toString() + String.valueOf(val2) + " = " + String.valueOf(val1));
-                computationLine.setText(null);
-                val1 = Double.NaN;
+                if (specialCharJustPressed) {
+                    Toast.makeText(MainActivity.this, "Please enter something after the special character.", Toast.LENGTH_SHORT).show();
+                } else if (operatorJustPressed) {
+                    Toast.makeText(MainActivity.this, "Please enter something after the operator.", Toast.LENGTH_SHORT).show();
+                } else if (!operatorJustPressed && operatorPressed) {
+                    compute();
+                    ACTION = ENTER;
+                    result.setText(result.getText().toString() + String.valueOf(val2) + " = " + String.valueOf(val1));
+                    computationLine.setText(null);
+                    val1 = Double.NaN;
+                    operatorJustPressed = false;
+                    operatorPressed = false;
+                } else {
+                    result.setText(computationLine.getText().toString() + " = " + computationLine.getText().toString());
+                    computationLine.setText(null);
+                    val1 = Double.NaN;
+                    operatorJustPressed = false;
+                    operatorPressed = false;
+                }
             }
         });
     }

@@ -22,11 +22,27 @@
         android:text="@string/calculation"
         android:textSize="25sp"/>
     <LinearLayout
+        android:id="@+id/clearLine"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="85dp">
+
+        <Button
+            android:layout_width="177dp"
+            android:layout_height="match_parent"
+            android:text="@string/clear"
+            />
+        <Button
+            android:layout_width="176dp"
+            android:layout_height="match_parent"
+            android:text="@string/backspace"/>
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/firstLine"
         android:layout_width="wrap_content"
-        android:layout_height="85dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp">
+        android:layout_height="80dp"
+        android:layout_below="@id/clearLine"
+        android:layout_centerHorizontal="true">
 
         <Button
             android:id="@+id/Seven"
@@ -57,7 +73,7 @@
     <LinearLayout
         android:id="@+id/secondLine"
         android:layout_width="wrap_content"
-        android:layout_height="85dp"
+        android:layout_height="80dp"
         android:layout_below="@id/firstLine"
         android:layout_centerHorizontal="true">
 
@@ -91,7 +107,7 @@
     <LinearLayout
         android:id="@+id/thirdLine"
         android:layout_width="wrap_content"
-        android:layout_height="85dp"
+        android:layout_height="80dp"
         android:layout_below="@id/secondLine"
         android:layout_centerHorizontal="true">
 
@@ -124,7 +140,7 @@
     <LinearLayout
         android:id="@+id/fourthLine"
         android:layout_width="wrap_content"
-        android:layout_height="85dp"
+        android:layout_height="80dp"
         android:layout_below="@id/thirdLine"
         android:layout_centerHorizontal="true">
 
@@ -159,8 +175,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/fourthLine"
-        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         android:background="#e91d1d"
         android:text="@string/Enter"
         android:textSize="20sp"

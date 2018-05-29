@@ -19,4 +19,6 @@
     <string name="subtraction">-</string>
     <string name="Enter">Enter</string>
     <string name="result" />
+    <string name="clear">Clear</string>
+    <string name="backspace">Backspace</string>
 </resources>
