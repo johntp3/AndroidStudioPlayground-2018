@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:paddingHorizontal="15sp">
+    android:paddingHorizontal="16sp">
 
     <TextView
         android:id="@+id/result"
@@ -21,22 +21,27 @@
         android:layout_marginTop="50dp"
         android:text="@string/calculation"
         android:textSize="25sp"/>
+
     <LinearLayout
         android:id="@+id/clearLine"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginTop="85dp">
+        android:layout_below="@+id/computationLine"
+        android:layout_centerHorizontal="true">
 
         <Button
+            android:id="@+id/clear"
             android:layout_width="177dp"
             android:layout_height="match_parent"
-            android:text="@string/clear"
-            />
+            android:text="@string/clear" />
+
         <Button
-            android:layout_width="176dp"
+            android:id="@+id/backspace"
+            android:layout_width="175dp"
             android:layout_height="match_parent"
-            android:text="@string/backspace"/>
+            android:text="@string/backspace" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/firstLine"
         android:layout_width="wrap_content"

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    Button Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Dot, Negative, division, multiplication, subtraction, addition, Enter;
+    Button Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Dot, Negative, division, multiplication, subtraction, addition, Enter, clear, backspace;
     TextView computationLine, result;
     final char DIVISION = '/';
     final char MULTIPLICATION = '*';
@@ -18,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
     char ACTION;
     double val1 = Double.NaN;
     double val2;
-    boolean operatorJustPressed = false, operatorPressed = false, specialCharJustPressed = false;
+    boolean operatorJustPressed = false, specialCharJustPressed = false;
+    int operatorPressed = 0;
+    String name, resultName, endName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Zero = findViewById(R.id.Zero); One = findViewById(R.id.One); Two = findViewById(R.id.Two); Three = findViewById(R.id.Three); Four = findViewById(R.id.Four);
         Five = findViewById(R.id.Five); Six = findViewById(R.id.Six); Seven = findViewById(R.id.Seven); Eight = findViewById(R.id.Eight); Nine = findViewById(R.id.Nine);
         Dot = findViewById(R.id.Dot); Negative = findViewById(R.id.Negative); division = findViewById(R.id.division); multiplication = findViewById(R.id.multiplication);
-        subtraction = findViewById(R.id.subtraction); addition = findViewById(R.id.addition); Enter = findViewById(R.id.Enter);
+        subtraction = findViewById(R.id.subtraction); addition = findViewById(R.id.addition); Enter = findViewById(R.id.Enter); clear = findViewById(R.id.clear);
+        backspace = findViewById(R.id.backspace);
         //linking TextView to MainActivity
         computationLine = findViewById(R.id.computationLine); result = findViewById(R.id.result);
         //here is where the values will be stored for computation later on
@@ -144,12 +147,20 @@ public class MainActivity extends AppCompatActivity {
         division.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                ACTION = DIVISION;
-                result.setText(String.valueOf(val1) + " / ");
+                if(computationLine.getText().length() > 0) {
+                    compute();
+                    ACTION = DIVISION;
+                    result.setText(String.valueOf(val1) + " / ");
+                    operatorJustPressed = true;
+                    operatorPressed++;
+                } else if (result.getText().length() > 0) {
+                    //fix errors here
+                    val1 = Double.parseDouble(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1));
+                    result.setText(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1) + " / ");
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter something before the operator", Toast.LENGTH_SHORT).show();
+                }
                 computationLine.setText(null);
-                operatorJustPressed = true;
-                operatorPressed = true;
                 specialCharJustPressed = false;
             }
         });
@@ -162,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 result.setText(String.valueOf(val1) + " * ");
                 computationLine.setText(null);
                 operatorJustPressed = true;
-                operatorPressed = true;
+                operatorPressed++;
                 specialCharJustPressed = false;
             }
         });
@@ -175,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
                 result.setText(String.valueOf(val1) + " - ");
                 computationLine.setText(null);
                 operatorJustPressed = true;
-                operatorPressed = true;
+                operatorPressed++;
                 specialCharJustPressed = false;
 
             }
@@ -189,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                 result.setText(String.valueOf(val1) + " + ");
                 computationLine.setText(null);
                 operatorJustPressed = true;
-                operatorPressed = true;
+                operatorPressed++;
                 specialCharJustPressed = false;
             }
         });
@@ -201,20 +212,68 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Please enter something after the special character.", Toast.LENGTH_SHORT).show();
                 } else if (operatorJustPressed) {
                     Toast.makeText(MainActivity.this, "Please enter something after the operator.", Toast.LENGTH_SHORT).show();
-                } else if (!operatorJustPressed && operatorPressed) {
+                } else if (!operatorJustPressed && operatorPressed > 0) {
                     compute();
                     ACTION = ENTER;
                     result.setText(result.getText().toString() + String.valueOf(val2) + " = " + String.valueOf(val1));
                     computationLine.setText(null);
                     val1 = Double.NaN;
                     operatorJustPressed = false;
-                    operatorPressed = false;
+                    operatorPressed = 0;
                 } else {
-                    result.setText(computationLine.getText().toString() + " = " + computationLine.getText().toString());
+                    if(computationLine.getText().length() == 0) {
+                        result.setText("");
+                    } else {
+                        result.setText(computationLine.getText().toString() + " = " + computationLine.getText().toString());
+                    }
                     computationLine.setText(null);
                     val1 = Double.NaN;
                     operatorJustPressed = false;
-                    operatorPressed = false;
+                    operatorPressed = 0;
+                }
+            }
+        });
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                result.setText(null);
+                computationLine.setText(null);
+                val1 = Double.NaN;
+                operatorJustPressed = false;
+                operatorPressed = 0;
+                specialCharJustPressed = false;
+            }
+        });
+
+        backspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                specialCharJustPressed = false;
+                operatorJustPressed = false;
+                name = computationLine.getText().toString();
+                if(computationLine.getText().length() > 0) {
+                    computationLine.setText(name.substring(0, name.length()-1));
+
+                    endName = computationLine.getText().toString();
+                    resultName = result.getText().toString();
+                    if(computationLine.getText().length() > 0) {
+                        if(endName.substring(endName.length()-1).equals(".") || endName.substring(endName.length()-1).equals("-")) {
+                            specialCharJustPressed = true;
+                        }
+                    } else {
+                        if(resultName.contains("/") || resultName.contains("*") || resultName.contains("-") || resultName.contains("+")) {
+                            operatorJustPressed = true;
+                        }
+                    }
+
+                } else {
+                    result.setText(null);
+                    computationLine.setText(null);
+                    val1 = Double.NaN;
+                    operatorJustPressed = false;
+                    operatorPressed = 0;
+                    specialCharJustPressed = false;
                 }
             }
         });
