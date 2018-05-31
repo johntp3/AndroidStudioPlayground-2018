@@ -154,9 +154,10 @@ public class MainActivity extends AppCompatActivity {
                     operatorJustPressed = true;
                     operatorPressed++;
                 } else if (result.getText().length() > 0) {
-                    //fix errors here
+                    ACTION = DIVISION;
                     val1 = Double.parseDouble(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1));
                     result.setText(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1) + " / ");
+                    operatorPressed++;
                 } else {
                     Toast.makeText(MainActivity.this, "Please enter something before the operator", Toast.LENGTH_SHORT).show();
                 }
@@ -168,12 +169,21 @@ public class MainActivity extends AppCompatActivity {
         multiplication.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                ACTION = MULTIPLICATION;
-                result.setText(String.valueOf(val1) + " * ");
+                if(computationLine.getText().length() > 0) {
+                    compute();
+                    ACTION = MULTIPLICATION;
+                    result.setText(String.valueOf(val1) + " * ");
+                    operatorJustPressed = true;
+                    operatorPressed++;
+                } else if (result.getText().length() > 0) {
+                    ACTION = MULTIPLICATION;
+                    val1 = Double.parseDouble(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1));
+                    result.setText(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1) + " * ");
+                    operatorPressed++;
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter something before the operator", Toast.LENGTH_SHORT).show();
+                }
                 computationLine.setText(null);
-                operatorJustPressed = true;
-                operatorPressed++;
                 specialCharJustPressed = false;
             }
         });
@@ -181,12 +191,21 @@ public class MainActivity extends AppCompatActivity {
         subtraction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                ACTION = SUBTRACTION;
-                result.setText(String.valueOf(val1) + " - ");
+                if(computationLine.getText().length() > 0) {
+                    compute();
+                    ACTION = SUBTRACTION;
+                    result.setText(String.valueOf(val1) + " - ");
+                    operatorJustPressed = true;
+                    operatorPressed++;
+                } else if (result.getText().length() > 0) {
+                    ACTION = SUBTRACTION;
+                    val1 = Double.parseDouble(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1));
+                    result.setText(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1) + " - ");
+                    operatorPressed++;
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter something before the operator", Toast.LENGTH_SHORT).show();
+                }
                 computationLine.setText(null);
-                operatorJustPressed = true;
-                operatorPressed++;
                 specialCharJustPressed = false;
 
             }
@@ -195,12 +214,21 @@ public class MainActivity extends AppCompatActivity {
         addition.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                compute();
-                ACTION = ADDITION;
-                result.setText(String.valueOf(val1) + " + ");
+                if(computationLine.getText().length() > 0) {
+                    compute();
+                    ACTION = ADDITION;
+                    result.setText(String.valueOf(val1) + " + ");
+                    operatorJustPressed = true;
+                    operatorPressed++;
+                } else if (result.getText().length() > 0) {
+                    ACTION = ADDITION;
+                    val1 = Double.parseDouble(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1));
+                    result.setText(result.getText().toString().substring(result.getText().toString().lastIndexOf(" ") + 1) + " + ");
+                    operatorPressed++;
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter something before the operator", Toast.LENGTH_SHORT).show();
+                }
                 computationLine.setText(null);
-                operatorJustPressed = true;
-                operatorPressed++;
                 specialCharJustPressed = false;
             }
         });
